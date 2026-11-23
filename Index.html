@@ -1,0 +1,1714 @@
+DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TahsinQuest - Eksplorasi & Game Makhorijul Huruf & Sifatul Huruf</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            850: '#04563e',
+                            900: '#064E3B',
+                            950: '#022c22',
+                        },
+                        gold: {
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                            700: '#B45309',
+                        },
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F8F5EE',
+                            200: '#EFE9DC',
+                        }
+                    },
+                    fontFamily: {
+                        arabic: ['Amiri', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8F5EE;
+            background-image: radial-gradient(#d9770615 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .font-arabic {
+            font-family: 'Amiri', serif;
+            line-height: 1.6;
+        }
+
+        /* Touch & PID Mode styles */
+        .touch-mode .btn-touch {
+            min-height: 3.5rem;
+            font-size: 1.15rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        .touch-mode .text-arabic-lg {
+            font-size: 3.5rem !important;
+        }
+        .touch-mode .grid-huruf {
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #EFE9DC;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #047857;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #065F46;
+        }
+
+        /* Certificate Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-certificate, #printable-certificate * {
+                visibility: visible;
+            }
+            #printable-certificate {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 20px;
+                background: white !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* Subtle Glow Animations */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.8); }
+        }
+        .glow-gold {
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Interactive SVG Anatomi Styling */
+        .anatomi-region {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            fill-opacity: 0.25;
+            stroke-width: 2.5;
+        }
+        .anatomi-region:hover, .anatomi-region.active {
+            fill-opacity: 0.65;
+            stroke-width: 4;
+            filter: drop-shadow(0px 0px 8px rgba(217, 119, 6, 0.8));
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between selection:bg-emerald-700 selection:text-white">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-850 text-white shadow-xl border-b-4 border-gold-500 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showModule('dashboard')">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-lg border border-gold-300">
+                    <i class="fa-solid font-arabic text-emerald-950 text-2xl font-bold">ط</i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+                        TahsinQuest <span class="text-xs px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-400 border border-gold-500/30">Pro IFP</span>
+                    </h1>
+                    <p class="text-xs text-emerald-200">Eksplorasi & Game Makhorijul dan Sifatul Huruf</p>
+                </div>
+            </div>
+
+            <!-- Santri Profile & Quick Stats Bar -->
+            <div class="flex items-center gap-4 bg-emerald-950/60 backdrop-blur-md px-4 py-2 rounded-2xl border border-emerald-700/50 shadow-inner">
+                <!-- Name Tag -->
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-user-graduate text-gold-400"></i>
+                    <input type="text" id="santri-name-input" value="Santri Tahsin" title="Nama Santri" placeholder="Nama Santri..." 
+                           class="bg-transparent text-sm font-semibold text-gold-300 outline-none border-b border-emerald-600 focus:border-gold-400 w-28 md:w-36 transition"
+                           onchange="updateSantriName(this.value)">
+                </div>
+                <!-- XP Indicator -->
+                <div class="flex items-center gap-1.5 bg-emerald-800/80 px-2.5 py-1 rounded-xl border border-gold-500/30">
+                    <i class="fa-solid fa-star text-gold-400 animate-pulse"></i>
+                    <span id="player-xp" class="text-xs font-bold text-gold-300">0 XP</span>
+                </div>
+                <!-- Hearts Indicator -->
+                <div class="flex items-center gap-1 text-rose-400 text-sm" id="lives-container">
+                    <i class="fa-solid fa-heart"></i>
+                    <i class="fa-solid fa-heart"></i>
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <!-- Streak Badge -->
+                <div class="hidden sm:flex items-center gap-1 text-amber-400 text-xs font-bold bg-amber-950/40 px-2 py-1 rounded-lg">
+                    <i class="fa-solid fa-fire text-amber-500"></i>
+                    <span id="streak-count">0 Combo</span>
+                </div>
+            </div>
+
+            <!-- Controls (Fullscreen, Audio, Touch Toggle) -->
+            <div class="flex items-center gap-2">
+                <button id="btn-audio-toggle" onclick="toggleAudioSynth()" class="p-2.5 rounded-xl bg-emerald-800/70 hover:bg-emerald-700 text-gold-300 border border-emerald-600 transition" title="Mute/Unmute Audio Effek">
+                    <i class="fa-solid fa-volume-high text-lg" id="audio-icon"></i>
+                </button>
+                <button id="btn-touch-mode" onclick="toggleTouchMode()" class="px-3 py-2 rounded-xl bg-emerald-800/70 hover:bg-emerald-700 text-gold-300 border border-emerald-600 text-xs font-semibold flex items-center gap-2 transition" title="Mode Layar Besar Sentuh (IFP)">
+                    <i class="fa-solid fa-hand-pointer"></i>
+                    <span class="hidden md:inline">Mode PID/Sentuh</span>
+                </button>
+                <button id="btn-fullscreen" onclick="toggleFullscreen()" class="p-2.5 rounded-xl bg-gold-600 hover:bg-gold-500 text-emerald-950 font-bold shadow-md transition" title="Layar Penuh">
+                    <i class="fa-solid fa-expand text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- DASHBOARD MENU (MAIN SELECTION) -->
+        <section id="module-dashboard" class="space-y-6">
+            <!-- Banner / Greeting -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 p-6 sm:p-8 text-white shadow-2xl border-2 border-gold-500/40">
+                <div class="relative z-10 max-w-2xl space-y-3">
+                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-gold-500/20 text-gold-400 border border-gold-500/30">
+                        Interaktif Tahsin Digital
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-cream-50">
+                        Selamat Datang, <span id="display-santri-name" class="text-gold-400">Santri Tahsin</span>!
+                    </h2>
+                    <p class="text-emerald-100 text-sm sm:text-base leading-relaxed">
+                        Kuasai pengucapan 29 Huruf Hijaiyah dengan tepat berdasarkan 5 Tempat Keluar Suara (<span class="text-gold-300 font-semibold">Makhorijul Huruf</span>) dan Karakteristik Pengucapan (<span class="text-gold-300 font-semibold">Sifatul Huruf</span>). Pilih modul di bawah ini untuk memulai!
+                    </p>
+                </div>
+                <!-- Background Geometric Islamic Pattern Overlay -->
+                <div class="absolute -right-10 -bottom-10 opacity-15 pointer-events-none text-gold-400">
+                    <i class="fa-solid fa-star-and-crescent text-[220px]"></i>
+                </div>
+            </div>
+
+            <!-- 4 Main Modules Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Modul 1 Card -->
+                <div onclick="showModule('modul1')" class="group cursor-pointer rounded-3xl bg-white p-6 shadow-md hover:shadow-2xl border-2 border-emerald-100 hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl font-bold group-hover:bg-emerald-800 group-hover:text-gold-400 transition-colors">
+                                <i class="fa-solid fa-microscope"></i>
+                            </div>
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">Eksplorasi Bebas</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-950 group-hover:text-emerald-700 transition-colors">Modul 1: Laboratorium Makhraj & Sifat</h3>
+                            <p class="text-slate-600 text-sm mt-1">Eksplorasi diagram anatomi saluran suara interaktif (SVG) dan kartu detail 29 huruf hijaiyah berharakat lengkap.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-700">
+                        <span>29 Huruf + Audio Utterance</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Modul 2 Card -->
+                <div onclick="showModule('modul2')" class="group cursor-pointer rounded-3xl bg-white p-6 shadow-md hover:shadow-2xl border-2 border-emerald-100 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl font-bold group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">3 Level Game</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-950 group-hover:text-amber-600 transition-colors">Modul 2: Game Tebak Makhraj</h3>
+                            <p class="text-slate-600 text-sm mt-1">Tebak lokasi makhraj utama & rinci. Uji kecepatanmu dalam Tantangan Berwaktu 60 Detik!</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700">
+                        <span>Anatomi Menyala + Combo XP</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Modul 3 Card -->
+                <div onclick="showModule('modul3')" class="group cursor-pointer rounded-3xl bg-white p-6 shadow-md hover:shadow-2xl border-2 border-emerald-100 hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl font-bold group-hover:bg-emerald-800 group-hover:text-gold-400 transition-colors">
+                                <i class="fa-solid fa-user-ninja"></i>
+                            </div>
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-teal-50 text-teal-800 border border-teal-200">Detektif Sifat</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-950 group-hover:text-emerald-700 transition-colors">Modul 3: Game Detektif Sifatul Huruf</h3>
+                            <p class="text-slate-600 text-sm mt-1">Identifikasi sifat tunggal khusus (Qalqalah, Shafir, Istithalah) dan tantangan Sortir Kilat Dua Kubu.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-700">
+                        <span>Sub-Mode Tebak & Sortir Fast-Paced</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Modul 4 Card -->
+                <div onclick="showModule('modul4')" class="group cursor-pointer rounded-3xl bg-white p-6 shadow-md hover:shadow-2xl border-2 border-gold-300 hover:border-gold-500 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between bg-gradient-to-br from-white to-gold-50/30">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-gold-100 text-gold-800 flex items-center justify-center text-2xl font-bold group-hover:bg-gold-600 group-hover:text-white transition-colors shadow-sm">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-gold-100 text-gold-900 border border-gold-300">Ujian Resmi</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-950 group-hover:text-gold-700 transition-colors">Modul 4: Ujian Evaluasi & Sertifikat</h3>
+                            <p class="text-slate-600 text-sm mt-1">Uji pemahaman komprehensif 10 soal acak dan dapatkan Sertifikat Digital Kelulusan resmi Tahsin.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gold-200/60 flex items-center justify-between text-xs font-bold text-gold-700">
+                        <span>Predikat & Sertifikat Cetak</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- MODUL 1: LABORATORIUM MAKHRAJ & SIFAT -->
+        <section id="module-modul1" class="hidden space-y-6">
+            <!-- Navigation Back -->
+            <div class="flex items-center justify-between">
+                <button onclick="showModule('dashboard')" class="btn-touch px-4 py-2 rounded-2xl bg-white hover:bg-emerald-50 text-emerald-900 font-semibold border border-emerald-200 shadow-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu
+                </button>
+                <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full border border-emerald-300">
+                    Modul 1: Eksplorasi Anatomi & Huruf
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left Column: Interactive Voice Tract SVG Diagram -->
+                <div class="lg:col-span-5 bg-white p-5 rounded-3xl shadow-lg border border-emerald-100 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-emerald-950 flex items-center gap-2">
+                            <i class="fa-solid fa-head-side-virus text-emerald-700"></i> Diagram Anatomi Makhorijul Huruf
+                        </h3>
+                        <p class="text-xs text-slate-550 mt-1">Klik area warna pada anatomi organ wicara di bawah untuk memfilter huruf hijaiyah terkait.</p>
+                    </div>
+
+                    <!-- SVG Vocal Tract Diagram -->
+                    <div class="my-4 relative flex items-center justify-center bg-emerald-950/5 rounded-2xl p-4 border border-emerald-100">
+                        <svg viewBox="0 0 400 400" class="w-full max-w-[340px] h-auto drop-shadow-md">
+                            <defs>
+                                <radialGradient id="grad-head" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#f8fafc" />
+                                    <stop offset="100%" stop-color="#e2e8f0" />
+                                </radialGradient>
+                            </defs>
+                            
+                            <!-- Head Outline Background -->
+                            <path d="M 80,200 C 80,90 160,50 250,50 C 330,50 350,110 350,180 C 350,220 340,240 310,250 C 290,255 270,260 270,300 L 270,360 L 170,360 L 170,310 C 140,290 80,270 80,200 Z" 
+                                  fill="url(#grad-head)" stroke="#94a3b8" stroke-width="3" stroke-dasharray="4 4" />
+
+                            <!-- 1. Al-Khaisyum (Rongga Hidung) - Magenta/Pink -->
+                            <path id="svg-khaisyum" onclick="filterByMakhraj('Al-Khaisyum')" class="anatomi-region fill-pink-500 stroke-pink-700" 
+                                  d="M 210,100 Q 280,100 290,135 Q 240,145 200,125 Z">
+                                <title>Al-Khaisyum (Rongga Hidung)</title>
+                            </path>
+
+                            <!-- 2. Al-Jauf (Rongga Mulut & Tenggorokan) - Yellow/Gold -->
+                            <path id="svg-jauf" onclick="filterByMakhraj('Al-Jauf')" class="anatomi-region fill-amber-400 stroke-amber-600" 
+                                  d="M 190,140 C 240,140 280,150 280,180 C 240,190 200,180 180,230 Q 170,160 190,140 Z">
+                                <title>Al-Jauf (Rongga Mulut & Tenggorokan)</title>
+                            </path>
+
+                            <!-- 3. Al-Lisan (Lidah) - Emerald Green -->
+                            <path id="svg-lisan" onclick="filterByMakhraj('Al-Lisan')" class="anatomi-region fill-emerald-500 stroke-emerald-700" 
+                                  d="M 190,230 Q 230,200 285,215 Q 260,245 200,245 Z">
+                                <title>Al-Lisan (Lidah)</title>
+                            </path>
+
+                            <!-- 4. Asy-Syafatain (Dua Bibir) - Orange/Red -->
+                            <path id="svg-syafatain" onclick="filterByMakhraj('Asy-Syafatain')" class="anatomi-region fill-rose-500 stroke-rose-700" 
+                                  d="M 290,195 Q 315,200 310,215 Q 290,225 285,210 Z">
+                                <title>Asy-Syafatain (Dua Bibir)</title>
+                            </path>
+
+                            <!-- 5. Al-Halq (Tenggorokan) - Cyan/Blue -->
+                            <path id="svg-halq" onclick="filterByMakhraj('Al-Halq')" class="anatomi-region fill-sky-500 stroke-sky-700" 
+                                  d="M 170,245 C 190,245 195,290 195,340 C 175,340 170,290 170,245 Z">
+                                <title>Al-Halq (Tenggorokan)</title>
+                            </path>
+
+                            <!-- Anatomy Text Labels -->
+                            <text x="215" y="118" font-size="11" font-weight="bold" fill="#be185d" pointer-events="none">Al-Khaisyum</text>
+                            <text x="200" y="165" font-size="11" font-weight="bold" fill="#b45309" pointer-events="none">Al-Jauf</text>
+                            <text x="220" y="232" font-size="11" font-weight="bold" fill="#047857" pointer-events="none">Al-Lisan</text>
+                            <text x="315" y="210" font-size="11" font-weight="bold" fill="#be123c" pointer-events="none">Syafatain</text>
+                            <text x="120" y="295" font-size="11" font-weight="bold" fill="#0369a1" pointer-events="none">Al-Halq</text>
+                        </svg>
+                    </div>
+
+                    <!-- Filter Buttons Bar -->
+                    <div class="flex flex-wrap gap-1.5 justify-center">
+                        <button onclick="filterByMakhraj('Semua')" class="filter-btn text-xs px-3 py-1.5 rounded-xl bg-emerald-950 text-white font-semibold">Semua (29)</button>
+                        <button onclick="filterByMakhraj('Al-Jauf')" class="filter-btn text-xs px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 font-medium">Al-Jauf</button>
+                        <button onclick="filterByMakhraj('Al-Halq')" class="filter-btn text-xs px-2.5 py-1 rounded-xl bg-sky-100 text-sky-900 border border-sky-300 font-medium">Al-Halq</button>
+                        <button onclick="filterByMakhraj('Al-Lisan')" class="filter-btn text-xs px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 font-medium">Al-Lisan</button>
+                        <button onclick="filterByMakhraj('Asy-Syafatain')" class="filter-btn text-xs px-2.5 py-1 rounded-xl bg-rose-100 text-rose-900 border border-rose-300 font-medium">Asy-Syafatain</button>
+                        <button onclick="filterByMakhraj('Al-Khaisyum')" class="filter-btn text-xs px-2.5 py-1 rounded-xl bg-pink-100 text-pink-900 border border-pink-300 font-medium">Al-Khaisyum</button>
+                    </div>
+                </div>
+
+                <!-- Right Column: 29 Hijaiyah Grid -->
+                <div class="lg:col-span-7 bg-white p-5 rounded-3xl shadow-lg border border-emerald-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-emerald-950">Daftar 29 Huruf Hijaiyah</h3>
+                                <p class="text-xs text-slate-500">Pilih huruf untuk membuka analisis tajwid lengkap.</p>
+                            </div>
+                            <!-- Search Huruf -->
+                            <div class="relative w-full sm:w-48">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="search-huruf" onkeyup="searchHuruf(this.value)" placeholder="Cari (misal: Ba, Qalqalah)..." 
+                                       class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600">
+                            </div>
+                        </div>
+
+                        <!-- Huruf Grid -->
+                        <div id="grid-huruf-container" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-2.5 grid-huruf max-h-[460px] overflow-y-auto p-1">
+                            <!-- Injected dynamically via JavaScript -->
+                        </div>
+                    </div>
+                    <div class="mt-4 text-xs text-center text-slate-400">
+                        *Klik salah satu kartu huruf di atas untuk melihat Makhraj Rinci & Sifatul Huruf.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL DETAIL HURUF (LABORATORIUM MODAL) -->
+        <div id="modal-detail-huruf" class="hidden fixed inset-0 z-50 bg-emerald-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-gold-500 flex flex-col justify-between">
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-emerald-950 to-emerald-900 text-white p-6 rounded-t-3xl flex items-center justify-between sticky top-0 z-10 border-b border-gold-500/30">
+                    <div class="flex items-center gap-4">
+                        <div id="modal-symbol-box" class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-emerald-950 flex items-center justify-center font-arabic text-4xl font-bold shadow-lg">
+                            ا
+                        </div>
+                        <div>
+                            <h3 id="modal-nama-huruf" class="text-2xl font-bold text-white">Alif</h3>
+                            <p id="modal-transliterasi" class="text-xs text-gold-300">Latin: Alif | Makhraj Utama: Al-Jauf</p>
+                        </div>
+                    </div>
+                    <button onclick="closeModalDetail()" class="w-10 h-10 rounded-full bg-emerald-850 hover:bg-emerald-700 text-emerald-200 flex items-center justify-center transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 space-y-6">
+                    <!-- Harakat Practice Bar -->
+                    <div class="bg-cream-100 p-4 rounded-2xl border border-cream-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-emerald-900 uppercase tracking-wider">Latihan Pelafalan (Harakat)</span>
+                            <button id="btn-play-speech" onclick="playAudioUtterance()" class="btn-touch px-3 py-1.5 rounded-xl bg-gold-600 hover:bg-gold-500 text-emerald-950 text-xs font-bold flex items-center gap-2 shadow-sm">
+                                <i class="fa-solid fa-volume-high"></i> Dengarkan Pelafalan
+                            </button>
+                        </div>
+                        <div id="modal-harakat-display" class="grid grid-cols-4 gap-2 text-center font-arabic text-3xl font-bold text-emerald-950 py-2">
+                            <!-- Harakat cards populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Makhraj Analysis -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200">
+                            <h4 class="text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-location-dot text-emerald-700"></i> Makhraj Utama
+                            </h4>
+                            <p id="modal-makhraj-utama" class="text-sm font-bold text-emerald-950 mt-1">Al-Jauf (Rongga Mulut & Tenggorokan)</p>
+                        </div>
+                        <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200">
+                            <h4 class="text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-crosshairs text-emerald-700"></i> Makhraj Rinci (Artikulasi)
+                            </h4>
+                            <p id="modal-makhraj-rinci" class="text-xs text-slate-700 mt-1 leading-relaxed">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Sifatul Huruf Badges & Explanation -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-tags text-emerald-700"></i> Sifatul Huruf (Karakteristik Pengucapan)
+                        </h4>
+                        <div id="modal-sifat-badges" class="flex flex-wrap gap-2">
+                            <!-- Badges injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Common Errors (Lahn) & Tips -->
+                    <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 space-y-2">
+                        <h4 class="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-600"></i> Potensi Kesalahan (Lahn Khafi) & Tips
+                        </h4>
+                        <p id="modal-lahn-tips" class="text-xs text-amber-950 leading-relaxed">
+                            -
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-cream-100 p-4 rounded-b-3xl flex justify-end border-t border-cream-200">
+                    <button onclick="closeModalDetail()" class="btn-touch px-5 py-2 rounded-xl bg-emerald-900 hover:bg-emerald-800 text-white font-semibold text-sm">
+                        Tutup Kartu Detail
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- MODUL 2: GAME TEBAK MAKHRAJ -->
+        <section id="module-modul2" class="hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="showModule('dashboard')" class="btn-touch px-4 py-2 rounded-2xl bg-white hover:bg-emerald-50 text-emerald-900 font-semibold border border-emerald-200 shadow-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu
+                </button>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-300">
+                        Modul 2: Game Tebak Makhraj
+                    </span>
+                </div>
+            </div>
+
+            <!-- Level Selector Bar -->
+            <div class="bg-white p-4 rounded-3xl shadow-md border border-emerald-100 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-500 text-xl"></i>
+                    <span class="font-bold text-emerald-950">Pilih Tingkat Kesulitan:</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button id="lvl-btn-1" onclick="startMakhrajGame(1)" class="btn-touch px-4 py-2 rounded-xl bg-emerald-900 text-gold-400 font-bold text-xs">Level 1: 5 Makhraj Utama</button>
+                    <button id="lvl-btn-2" onclick="startMakhrajGame(2)" class="btn-touch px-4 py-2 rounded-xl bg-cream-200 text-slate-800 hover:bg-emerald-100 font-bold text-xs">Level 2: Makhraj Rinci</button>
+                    <button id="lvl-btn-3" onclick="startMakhrajGame(3)" class="btn-touch px-4 py-2 rounded-xl bg-cream-200 text-slate-800 hover:bg-emerald-100 font-bold text-xs">Level 3: Speed Round (60s)</button>
+                </div>
+            </div>
+
+            <!-- Game Arena Card -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-emerald-100 grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative overflow-hidden">
+                
+                <!-- Speed Round Timer (If Level 3 Active) -->
+                <div id="speed-timer-bar" class="hidden absolute top-0 left-0 right-0 bg-amber-500 text-white text-center text-xs font-bold py-1 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-stopwatch animate-spin"></i> Sisa Waktu Speed Round: <span id="timer-seconds">60</span> detik
+                </div>
+
+                <!-- Left: Question & Letter Target -->
+                <div class="md:col-span-6 space-y-6 text-center md:text-left">
+                    <div>
+                        <span id="makhraj-level-badge" class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-100 text-amber-900 border border-amber-300">
+                            Level 1: Makhraj Utama
+                        </span>
+                        <h3 class="text-slate-600 text-sm mt-3 font-semibold">Manakah letak Makhraj pengucapan dari huruf ini?</h3>
+                    </div>
+
+                    <!-- Target Letter Display Box -->
+                    <div class="flex items-center justify-center md:justify-start gap-4">
+                        <div id="makhraj-question-symbol" class="w-28 h-28 rounded-3xl bg-gradient-to-br from-emerald-900 to-emerald-950 text-gold-400 font-arabic text-6xl font-bold flex items-center justify-center shadow-2xl border-4 border-gold-500 glow-gold">
+                            ق
+                        </div>
+                        <div class="text-left">
+                            <h4 id="makhraj-question-name" class="text-2xl font-extrabold text-emerald-950">Qaf</h4>
+                            <p id="makhraj-question-hint" class="text-xs text-slate-500 italic mt-1">Hint: Memiliki sifat Qalqalah Kubra/Sughra</p>
+                            <button onclick="speakCurrentQuestionLetter()" class="mt-2 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1 rounded-lg border border-emerald-200 inline-flex items-center gap-1">
+                                <i class="fa-solid fa-volume-high"></i> Bunyi Huruf
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Options Container -->
+                    <div id="makhraj-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <!-- Options buttons injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Right: Visual Anatomy Feedback Area -->
+                <div class="md:col-span-6 bg-cream-50 p-6 rounded-3xl border border-cream-200 flex flex-col items-center justify-center text-center space-y-4">
+                    <h4 class="text-xs font-bold text-emerald-900 uppercase tracking-widest">Visualisasi Anatomi Jawaban</h4>
+                    
+                    <div class="w-full max-w-[260px] h-auto relative">
+                        <svg viewBox="0 0 400 400" class="w-full h-auto">
+                            <!-- Head Outline -->
+                            <path d="M 80,200 C 80,90 160,50 250,50 C 330,50 350,110 350,180 C 350,220 340,240 310,250 C 290,255 270,260 270,300 L 270,360 L 170,360 L 170,310 C 140,290 80,270 80,200 Z" 
+                                  fill="#f1f5f9" stroke="#cbd5e1" stroke-width="3" />
+                            
+                            <!-- Highlightable Regions for Feedback -->
+                            <path id="fb-jauf" class="fill-amber-400 opacity-20 transition-all duration-500" d="M 190,140 C 240,140 280,150 280,180 C 240,190 200,180 180,230 Q 170,160 190,140 Z"/>
+                            <path id="fb-halq" class="fill-sky-500 opacity-20 transition-all duration-500" d="M 170,245 C 190,245 195,290 195,340 C 175,340 170,290 170,245 Z"/>
+                            <path id="fb-lisan" class="fill-emerald-500 opacity-20 transition-all duration-500" d="M 190,230 Q 230,200 285,215 Q 260,245 200,245 Z"/>
+                            <path id="fb-syafatain" class="fill-rose-500 opacity-20 transition-all duration-500" d="M 290,195 Q 315,200 310,215 Q 290,225 285,210 Z"/>
+                            <path id="fb-khaisyum" class="fill-pink-500 opacity-20 transition-all duration-500" d="M 210,100 Q 280,100 290,135 Q 240,145 200,125 Z"/>
+                        </svg>
+                    </div>
+
+                    <div id="makhraj-feedback-box" class="text-xs p-3 rounded-2xl bg-white border border-slate-200 w-full text-slate-600 font-medium min-h-[50px] flex items-center justify-center">
+                        Pilih salah satu jawaban di sebelah kiri untuk menguji makhraj.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- MODUL 3: GAME DETEKTIF SIFATUL HURUF -->
+        <section id="module-modul3" class="hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="showModule('dashboard')" class="btn-touch px-4 py-2 rounded-2xl bg-white hover:bg-emerald-50 text-emerald-900 font-semibold border border-emerald-200 shadow-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu
+                </button>
+                <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full border border-emerald-300">
+                    Modul 3: Detektif Sifatul Huruf
+                </span>
+            </div>
+
+            <!-- Sub-mode Selector -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onclick="switchSifatSubmode('tebak')" id="submode-btn-tebak" class="btn-touch p-4 rounded-2xl bg-emerald-900 text-white font-bold text-sm shadow-md flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-magnifying-glass font-lg"></i> Mode A: Tebak Sifat Khusus Huruf
+                </button>
+                <button onclick="switchSifatSubmode('sortir')" id="submode-btn-sortir" class="btn-touch p-4 rounded-2xl bg-white text-emerald-950 hover:bg-emerald-50 font-bold text-sm border border-emerald-200 shadow-sm flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-right-left font-lg"></i> Mode B: Sortir Kilat Dua Kubu (Berlawanan)
+                </button>
+            </div>
+
+            <!-- SUB-MODE A: TEBAK SIFAT KHUSUS -->
+            <div id="sifat-submode-tebak" class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-emerald-100 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4">
+                    <div>
+                        <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-900">Misi Detektif Tajwid</span>
+                        <h3 id="sifat-question-title" class="text-xl font-bold text-emerald-950 mt-2">Huruf manakah yang memiliki sifat unik berikut?</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-500">Skor Sifat:</span>
+                        <div id="sifat-score-display" class="text-lg font-bold text-gold-600">0 Poin</div>
+                    </div>
+                </div>
+
+                <!-- Target Sifat Card -->
+                <div class="bg-gradient-to-r from-emerald-900 to-emerald-950 text-white p-6 rounded-2xl border-2 border-gold-500 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="space-y-1 text-center md:text-left">
+                        <span class="text-xs text-gold-300 font-semibold uppercase tracking-widest">Sifat Target</span>
+                        <h4 id="sifat-target-name" class="text-3xl font-extrabold text-gold-400">Qal-qalah (قلقلة)</h4>
+                        <p id="sifat-target-desc" class="text-xs text-emerald-100 max-w-xl">Memantulkan suara ketika huruf berada dalam kondisi sukun/mati.</p>
+                    </div>
+                    <i class="fa-solid fa-shield-halved text-5xl text-gold-400/80"></i>
+                </div>
+
+                <!-- 4 Letters Choices Grid -->
+                <div id="sifat-letters-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <!-- Buttons injected via JS -->
+                </div>
+            </div>
+
+            <!-- SUB-MODE B: SORTIR KILAT DUA KUBU -->
+            <div id="sifat-submode-sortir" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-emerald-100 space-y-6">
+                <div class="text-center max-w-xl mx-auto space-y-2">
+                    <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-amber-100 text-amber-900">Sortir Kilat Interaktif</span>
+                    <h3 class="text-2xl font-extrabold text-emerald-950">Klasifikasikan Huruf Ke Kubu Yang Tepat!</h3>
+                    <p id="sortir-rule-desc" class="text-xs text-slate-500">Klasifikasikan apakah huruf di bawah memiliki sifat <span class="font-bold text-emerald-800">Hams</span> (Nafas Berhembus) atau <span class="font-bold text-emerald-800">Jahar</span> (Nafas Tertahan).</p>
+                </div>
+
+                <!-- Active Letter Card to Sort -->
+                <div class="flex justify-center">
+                    <div id="sortir-current-card" class="w-32 h-32 rounded-3xl bg-gradient-to-br from-gold-400 to-gold-600 text-emerald-950 font-arabic text-7xl font-bold flex items-center justify-center shadow-2xl border-4 border-gold-300 glow-gold">
+                        ت
+                    </div>
+                </div>
+
+                <!-- 2 opposing buckets / buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                    <button onclick="checkSortirChoice(1)" id="sortir-bucket-1" class="btn-touch p-6 rounded-3xl bg-emerald-950 hover:bg-emerald-900 text-white text-center border-2 border-emerald-700 transition space-y-2 shadow-lg">
+                        <h4 id="sortir-bucket-1-title" class="text-xl font-bold text-gold-400">HAMS (هَمْس)</h4>
+                        <p id="sortir-bucket-1-desc" class="text-xs text-emerald-200">Ada hembusan nafas saat diucapkan (فَحَثَّهُ شَخْصٌ سَكَتَ)</p>
+                    </button>
+
+                    <button onclick="checkSortirChoice(2)" id="sortir-bucket-2" class="btn-touch p-6 rounded-3xl bg-emerald-900 hover:bg-emerald-850 text-white text-center border-2 border-emerald-700 transition space-y-2 shadow-lg">
+                        <h4 id="sortir-bucket-2-title" class="text-xl font-bold text-gold-400">JAHAR (جَهْر)</h4>
+                        <p id="sortir-bucket-2-desc" class="text-xs text-emerald-200">Nafas tertahan kuat (Huruf selain Hams)</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- MODUL 4: UJIAN EVALUASI & SERTIFIKAT SANTRI -->
+        <section id="module-modul4" class="hidden space-y-6">
+            <div class="flex items-center justify-between no-print">
+                <button onclick="showModule('dashboard')" class="btn-touch px-4 py-2 rounded-2xl bg-white hover:bg-emerald-50 text-emerald-900 font-semibold border border-emerald-200 shadow-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu
+                </button>
+                <span class="text-xs font-bold px-3 py-1 bg-gold-100 text-gold-900 rounded-full border border-gold-300">
+                    Modul 4: Ujian & Sertifikat
+                </span>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div id="quiz-container" class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-gold-300 space-y-6">
+                <!-- Quiz Progress -->
+                <div class="flex items-center justify-between text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
+                    <span>Soal <span id="quiz-num">1</span> dari 10</span>
+                    <div class="w-1/3 bg-slate-100 rounded-full h-2 overflow-hidden">
+                        <div id="quiz-progress-bar" class="bg-gold-500 h-full w-10 transition-all duration-300"></div>
+                    </div>
+                    <span id="quiz-score-live">Skor: 0</span>
+                </div>
+
+                <!-- Quiz Question Box -->
+                <div class="space-y-4">
+                    <span id="quiz-category-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-200">
+                        Makhorijul Huruf
+                    </span>
+                    <h3 id="quiz-question-text" class="text-xl font-bold text-emerald-950 leading-relaxed">
+                        Manakah huruf berikut yang keluar dari makhraj Al-Halq (Tenggorokan)?
+                    </h3>
+                </div>
+
+                <!-- Options -->
+                <div id="quiz-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <!-- Option buttons populated by JS -->
+                </div>
+            </div>
+
+            <!-- QUIZ RESULT & CERTIFICATE VIEW (Hidden initially) -->
+            <div id="certificate-result-container" class="hidden space-y-8">
+                <!-- Score Summary Box -->
+                <div class="bg-white p-6 rounded-3xl shadow-xl border-2 border-emerald-100 text-center space-y-4 no-print">
+                    <div class="w-20 h-20 rounded-full bg-gold-100 text-gold-600 font-extrabold text-3xl flex items-center justify-center mx-auto shadow-inner">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-emerald-950">Selamat! Anda Telah Menyelesaikan Ujian Tahsin</h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-lg mx-auto py-2">
+                        <div class="bg-cream-100 p-3 rounded-2xl border border-cream-200">
+                            <span class="text-xs text-slate-500 font-semibold">Skor Akhir</span>
+                            <p id="cert-final-score" class="text-2xl font-extrabold text-emerald-900">90 / 100</p>
+                        </div>
+                        <div class="bg-cream-100 p-3 rounded-2xl border border-cream-200">
+                            <span class="text-xs text-slate-500 font-semibold">Predikat</span>
+                            <p id="cert-final-predicate" class="text-2xl font-extrabold text-gold-600">Mumtaz (ممتاز)</p>
+                        </div>
+                        <div class="bg-cream-100 p-3 rounded-2xl border border-cream-200">
+                            <span class="text-xs text-slate-500 font-semibold">Status Kelulusan</span>
+                            <p class="text-2xl font-extrabold text-emerald-600">LULUS</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center gap-4 pt-2">
+                        <button onclick="printCertificate()" class="btn-touch px-6 py-3 rounded-2xl bg-gold-600 hover:bg-gold-500 text-emerald-950 font-bold text-sm shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-print"></i> Cetak / Simpan Sertifikat
+                        </button>
+                        <button onclick="restartQuiz()" class="btn-touch px-6 py-3 rounded-2xl bg-emerald-900 hover:bg-emerald-800 text-white font-bold text-sm shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> Ulangi Ujian
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CERTIFICATE DIGITAL TEMPLATE (PRINTABLE) -->
+                <div id="printable-certificate" class="bg-white p-8 sm:p-12 rounded-3xl border-8 border-double border-emerald-900 shadow-2xl relative overflow-hidden text-center space-y-6">
+                    <!-- Islamic Corner Ornament Visuals -->
+                    <div class="absolute top-3 left-3 text-gold-600 opacity-60 text-3xl"><i class="fa-solid fa-vector-square"></i></div>
+                    <div class="absolute top-3 right-3 text-gold-600 opacity-60 text-3xl"><i class="fa-solid fa-vector-square"></i></div>
+                    <div class="absolute bottom-3 left-3 text-gold-600 opacity-60 text-3xl"><i class="fa-solid fa-vector-square"></i></div>
+                    <div class="absolute bottom-3 right-3 text-gold-600 opacity-60 text-3xl"><i class="fa-solid fa-vector-square"></i></div>
+
+                    <!-- Header Certificate -->
+                    <div class="space-y-2">
+                        <div class="font-arabic text-3xl text-emerald-950 font-bold">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-emerald-950 tracking-wider uppercase font-serif">Sertifikat Kelulusan Tahsin</h2>
+                        <p class="text-xs text-gold-700 font-semibold tracking-widest uppercase">TahsinQuest: Eksplorasi & Game Makhorijul dan Sifatul Huruf</p>
+                    </div>
+
+                    <!-- Body Certificate -->
+                    <div class="space-y-4 py-4 max-w-2xl mx-auto">
+                        <p class="text-sm text-slate-600">Sertifikat ini diberikan secara resmi kepada:</p>
+                        <h3 id="cert-student-name" class="text-3xl sm:text-4xl font-extrabold text-emerald-900 underline decoration-gold-500 underline-offset-8">
+                            Ahmad Santri
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed pt-2">
+                            Telah berhasil menyelesaikan Ujian Evaluasi Pembelajaran Digital Tajwid Al-Qur'an pada pembahasan <span class="font-bold text-emerald-950">Makhorijul Huruf & Sifatul Huruf</span> dengan hasil pengujian sebagai berikut:
+                        </p>
+                    </div>
+
+                    <!-- Certificate Result Badges -->
+                    <div class="inline-flex items-center gap-8 bg-cream-100 px-8 py-4 rounded-2xl border border-gold-300">
+                        <div>
+                            <span class="text-xs text-slate-500 uppercase tracking-wider block font-bold">Nilai Akhir</span>
+                            <span id="cert-score-badge" class="text-3xl font-extrabold text-emerald-950">90 / 100</span>
+                        </div>
+                        <div class="h-10 w-px bg-gold-300"></div>
+                        <div>
+                            <span class="text-xs text-slate-500 uppercase tracking-wider block font-bold">Predikat</span>
+                            <span id="cert-predicate-badge" class="text-2xl font-extrabold text-gold-700">Mumtaz (ممتاز)</span>
+                        </div>
+                    </div>
+
+                    <!-- Stamp & Signature Footer -->
+                    <div class="pt-8 flex justify-between items-end max-w-xl mx-auto text-xs text-slate-600">
+                        <div class="text-center space-y-1">
+                            <p id="cert-date-display">Tanggal: 24 November 2026</p>
+                            <div class="w-24 h-16 border-b border-slate-400 mx-auto flex items-center justify-center">
+                                <span class="font-arabic text-emerald-900 text-xl font-bold">TahsinQuest</span>
+                            </div>
+                            <p class="font-bold text-emerald-950">Penguji / System Verifier</p>
+                        </div>
+                        <div class="w-24 h-24 rounded-full border-4 border-gold-500 flex flex-col items-center justify-center text-gold-600 font-bold text-[10px] uppercase shadow-inner bg-gold-50/50">
+                            <i class="fa-solid fa-stamp text-lg mb-1"></i>
+                            <span>Official</span>
+                            <span>Verified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-emerald-950 text-emerald-300 text-xs py-4 border-t border-emerald-900 no-print">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© 2026 TahsinQuest Interaktif - Pembelajaran Digital Makhorijul & Sifatul Huruf Al-Qur'an.</p>
+            <div class="flex items-center gap-4">
+                <span>Metode Matan Al-Jazariyyah</span>
+                <span>•</span>
+                <span>Mode Proyektor/IFP Ready</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <script>
+        /* ==========================================================================
+           1. DATASET 29 HURUF HIJAIYAH (LENGKAP BESERTA MAKHRAJ & SIFAT TAJWID)
+           ========================================================================== */
+        const hijaiyahData = [
+            {
+                symbol: 'ا', name: 'Alif', transliterasi: 'Alif',
+                harakat: { fathah: 'أَ', kasrah: 'إِ', dhammah: 'أُ', sukun: 'أْ' },
+                makhrajUtama: 'Al-Jauf',
+                makhrajRinci: 'Rongga terbuka antara mulut dan tenggorokan (khusus huruf Madd).',
+                sifat: ['Jahar', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Hati-hati menggeser suara alif ke hidung (ghunnah). Pastikan suara mengalir bebas di rongga mulut.'
+            },
+            {
+                symbol: 'ب', name: 'Ba', transliterasi: 'Ba',
+                harakat: { fathah: 'بَ', kasrah: 'بِ', dhammah: 'بُ', sukun: 'بْ' },
+                makhrajUtama: 'Asy-Syafatain',
+                makhrajRinci: 'Pertemuan kedua bibir (atas dan bawah) yang dirapatkan secara kuat.',
+                sifat: ['Jahar', 'Syiddah', 'Istifal', 'Infitah', 'Idhlaq', 'Qalqalah'],
+                lahnTips: 'Jangan membocorkan nafas (hams). Saat sukun, wajib dipantulkan dengan jelas (Qalqalah).'
+            },
+            {
+                symbol: 'ت', name: 'Ta', transliterasi: 'Ta',
+                harakat: { fathah: 'تَ', kasrah: 'تِ', dhammah: 'تُ', sukun: 'تْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah menempel pada pangkal gigi seri atas.',
+                sifat: ['Hams', 'Syiddah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Pastikan ada sisa bisikan hembusan nafas (hams) yang halus saat sukun, tetapi jangan terlalu berlebihan seperti huruf "S".'
+            },
+            {
+                symbol: 'ث', name: 'Tsa', transliterasi: 'Tsa',
+                harakat: { fathah: 'ثَ', kasrah: 'ثِ', dhammah: 'ثُ', sukun: 'ثْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah dikeluarkan sedikit menyentuh ujung gigi seri atas.',
+                sifat: ['Hams', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Sering tertukar dengan huruf Sin (س). Pastikan ujung lidah sedikit menyembul di antara gigi.'
+            },
+            {
+                symbol: 'ج', name: 'Jim', transliterasi: 'Jim',
+                harakat: { fathah: 'جَ', kasrah: 'جِ', dhammah: 'جُ', sukun: 'جْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Tengah lidah menempel rapat pada langit-langit keras di atasnya.',
+                sifat: ['Jahar', 'Syiddah', 'Istifal', 'Infitah', 'Ismat', 'Qalqalah'],
+                lahnTips: 'Jangan membocorkan nafas seperti pengucapan "Ch" bahasa Inggris. Suara tertahan kuat lalu dipantulkan.'
+            },
+            {
+                symbol: 'ح', name: 'Ha', transliterasi: 'Ha (Halqiy)',
+                harakat: { fathah: 'حَ', kasrah: 'حِ', dhammah: 'حُ', sukun: 'حْ' },
+                makhrajUtama: 'Al-Halq',
+                makhrajRinci: 'Tengah-tengah tenggorokan (Wasathul Halq).',
+                sifat: ['Hams', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Suara harus bersih dan halus dari tengah tenggorokan, tidak boleh serak seperti Kha (خ).'
+            },
+            {
+                symbol: 'خ', name: 'Kha', transliterasi: 'Kha',
+                harakat: { fathah: 'خَ', kasrah: 'خِ', dhammah: 'خُ', sukun: 'خْ' },
+                makhrajUtama: 'Al-Halq',
+                makhrajRinci: 'Pangkal tenggorokan teratas / mendekati mulut (Adnal Halq).',
+                sifat: ['Hams', 'Rakhawah', 'Isti\'la', 'Infitah', 'Ismat'],
+                lahnTips: 'Memiliki sifat Isti\'la (suara tebal). Pastikan getaran gesekan serak terasa di bagian atas tenggorokan.'
+            },
+            {
+                symbol: 'د', name: 'Dal', transliterasi: 'Dal',
+                harakat: { fathah: 'دَ', kasrah: 'دِ', dhammah: 'دُ', sukun: 'دْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah bertemu pangkal gigi seri atas.',
+                sifat: ['Jahar', 'Syiddah', 'Istifal', 'Infitah', 'Ismat', 'Qalqalah'],
+                lahnTips: 'Jaga nafas agar tidak berhembus. Pantulkan (Qalqalah) secara jelas saat sukun.'
+            },
+            {
+                symbol: 'ذ', name: 'Dzal', transliterasi: 'Dzal',
+                harakat: { fathah: 'ذَ', kasrah: 'ذِ', dhammah: 'ذُ', sukun: 'ذْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah dikeluarkan sedikit menyentuh ujung gigi seri atas.',
+                sifat: ['Jahar', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Jangan tertukar dengan Zai (ز). Dzal tidak memiliki getaran desis Shafir.'
+            },
+            {
+                symbol: 'ر', name: 'Ra', transliterasi: 'Ra',
+                harakat: { fathah: 'رَ', kasrah: 'رِ', dhammah: 'رُ', sukun: 'رْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah dekat punggung lidah menyentuh gusi gigi seri atas.',
+                sifat: ['Jahar', 'Tawassut', 'Istifal', 'Infitah', 'Idhlaq', 'Inhiraf', 'Takrir'],
+                lahnTips: 'Hindari getaran berlebihan (Takrir berlebih). Cukup getarkan ujung lidah 1-2 kali saja.'
+            },
+            {
+                symbol: 'ز', name: 'Zai', transliterasi: 'Zai',
+                harakat: { fathah: 'زَ', kasrah: 'زِ', dhammah: 'زُ', sukun: 'زْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah sejajar di atas gigi seri bawah.',
+                sifat: ['Jahar', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat', 'Shafir'],
+                lahnTips: 'Memiliki suara desis lebah yang kuat (Shafir). Pastikan nafas tertahan (Jahar).'
+            },
+            {
+                symbol: 'س', name: 'Sin', transliterasi: 'Sin',
+                harakat: { fathah: 'سَ', kasrah: 'سِ', dhammah: 'سُ', sukun: 'سْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah sejajar di atas gigi seri bawah.',
+                sifat: ['Hams', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat', 'Shafir'],
+                lahnTips: 'Suara desis tajam disertai hembusan nafas berlimpah.'
+            },
+            {
+                symbol: 'ش', name: 'Syin', transliterasi: 'Syin',
+                harakat: { fathah: 'شَ', kasrah: 'شِ', dhammah: 'شُ', sukun: 'شْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Tengah lidah terangkat menuju langit-langit keras.',
+                sifat: ['Hams', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat', 'Tafasysyi'],
+                lahnTips: 'Memiliki sifat khas Tafasysyi (angin menyebar luas di dalam mulut).'
+            },
+            {
+                symbol: 'ص', name: 'Shad', transliterasi: 'Shad',
+                harakat: { fathah: 'صَ', kasrah: 'صِ', dhammah: 'صُ', sukun: 'صْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah sejajar gigi seri bawah, pangkal lidah terangkat (Isti\'la & Itbaq).',
+                sifat: ['Hams', 'Rakhawah', 'Isti\'la', 'Itbaq', 'Ismat', 'Shafir'],
+                lahnTips: 'Huruf tebal dan bulat. Jangan memonyongkan bibir secara berlebihan, yang terangkat adalah pangkal lidah.'
+            },
+            {
+                symbol: 'ض', name: 'Dhad', transliterasi: 'Dhad',
+                harakat: { fathah: 'ضَ', kasrah: 'ضِ', dhammah: 'ضُ', sukun: 'ضْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Salah satu tepi lidah (atau keduanya) menyentuh geraham atas.',
+                sifat: ['Jahar', 'Rakhawah', 'Isti\'la', 'Itbaq', 'Ismat', 'Istithalah'],
+                lahnTips: 'Huruf yang sangat unik. Memiliki sifat Istithalah (suara memanjang menyusuri tepi lidah). Jangan dibaca seperti Zha atau Dal tebal.'
+            },
+            {
+                symbol: 'ط', name: 'Tha', transliterasi: 'Tha',
+                harakat: { fathah: 'طَ', kasrah: 'طِ', dhammah: 'طُ', sukun: 'طْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah menyentuh pangkal gigi seri atas dengan lidah terangkat penuh.',
+                sifat: ['Jahar', 'Syiddah', 'Isti\'la', 'Itbaq', 'Ismat', 'Qalqalah'],
+                lahnTips: 'Huruf paling kuat dalam hijaiyah. Pantulan Qalqalah-nya sangat tebal dan tegas.'
+            },
+            {
+                symbol: 'ظ', name: 'Zha', transliterasi: 'Zha',
+                harakat: { fathah: 'ظَ', kasrah: 'ظِ', dhammah: 'ظُ', sukun: 'ظْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah keluar sedikit menyentuh ujung gigi seri atas (dengan pangkal lidah terangkat).',
+                sifat: ['Jahar', 'Rakhawah', 'Isti\'la', 'Itbaq', 'Ismat'],
+                lahnTips: 'Pengucapan mirip Dzal (ذ) namun versi tebal (Itbaq).'
+            },
+            {
+                symbol: 'ع', name: 'Ain', transliterasi: '\'Ain',
+                harakat: { fathah: 'عَ', kasrah: 'عِ', dhammah: 'عُ', sukun: 'عْ' },
+                makhrajUtama: 'Al-Halq',
+                makhrajRinci: 'Tengah tenggorokan (Wasathul Halq).',
+                sifat: ['Jahar', 'Tawassut', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Suara agak ditekan di tengah tenggorokan. Jangan dibaca seperti Hamzah (أ).'
+            },
+            {
+                symbol: 'غ', name: 'Ghain', transliterasi: 'Ghain',
+                harakat: { fathah: 'غَ', kasrah: 'غِ', dhammah: 'غُ', sukun: 'غْ' },
+                makhrajUtama: 'Al-Halq',
+                makhrajRinci: 'Pangkal tenggorokan teratas (Adnal Halq).',
+                sifat: ['Jahar', 'Rakhawah', 'Isti\'la', 'Infitah', 'Ismat'],
+                lahnTips: 'Suara mengalir tebal seperti kumur-kumur halus (gargling).'
+            },
+            {
+                symbol: 'ف', name: 'Fa', transliterasi: 'Fa',
+                harakat: { fathah: 'فَ', kasrah: 'فِ', dhammah: 'فُ', sukun: 'فْ' },
+                makhrajUtama: 'Asy-Syafatain',
+                makhrajRinci: 'Bibir bawah bagian dalam menyentuh ujung gigi seri atas.',
+                sifat: ['Hams', 'Rakhawah', 'Istifal', 'Infitah', 'Idhlaq'],
+                lahnTips: 'Pastikan ada aliran hembusan nafas melalui celah bibir dan gigi.'
+            },
+            {
+                symbol: 'ق', name: 'Qaf', transliterasi: 'Qaf',
+                harakat: { fathah: 'قَ', kasrah: 'قِ', dhammah: 'قُ', sukun: 'قْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Pangkal lidah paling belakang menempel pada langit-langit lunak.',
+                sifat: ['Jahar', 'Syiddah', 'Isti\'la', 'Infitah', 'Ismat', 'Qalqalah'],
+                lahnTips: 'Suara tebal dan mantap. Wajib dipantulkan tebal saat sukun.'
+            },
+            {
+                symbol: 'ك', name: 'Kaf', transliterasi: 'Kaf',
+                harakat: { fathah: 'كَ', kasrah: 'كِ', dhammah: 'كُ', sukun: 'كْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Pangkal lidah sedikit di depan makhraj Qaf.',
+                sifat: ['Hams', 'Syiddah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Suara tertahan kuat lalu dilepaskan dengan bisikan nafas (Hams) yang halus.'
+            },
+            {
+                symbol: 'ل', name: 'Lam', transliterasi: 'Lam',
+                harakat: { fathah: 'لَ', kasrah: 'لِ', dhammah: 'لُ', sukun: 'لْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung tepi lidah hingga ujungnya menempel pada gusi gigi atas.',
+                sifat: ['Jahar', 'Tawassut', 'Istifal', 'Infitah', 'Idhlaq', 'Inhiraf'],
+                lahnTips: 'Aliran suara melenceng ke tepi lidah (Inhiraf). Dibaca tipis kecuali pada Lafdzul Jalalah (Allah) setelah fathah/dhammah.'
+            },
+            {
+                symbol: 'م', name: 'Mim', transliterasi: 'Mim',
+                harakat: { fathah: 'مَ', kasrah: 'مِ', dhammah: 'مُ', sukun: 'مْ' },
+                makhrajUtama: 'Asy-Syafatain',
+                makhrajRinci: 'Kedua bibir menutup + Al-Khaisyum (Rongga Hidung untuk Ghunnah).',
+                sifat: ['Jahar', 'Tawassut', 'Istifal', 'Infitah', 'Idhlaq', 'Ghunnah'],
+                lahnTips: 'Memiliki sifat mendengung alami (Ghunnah).'
+            },
+            {
+                symbol: 'ن', name: 'Nun', transliterasi: 'Nun',
+                harakat: { fathah: 'نَ', kasrah: 'نِ', dhammah: 'نُ', sukun: 'نْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Ujung lidah menempel gusi gigi atas + Al-Khaisyum (Rongga Hidung).',
+                sifat: ['Jahar', 'Tawassut', 'Istifal', 'Infitah', 'Idhlaq', 'Ghunnah'],
+                lahnTips: 'Suara juga bermuara pada rongga hidung.'
+            },
+            {
+                symbol: 'هـ', name: 'Ha', transliterasi: 'Ha (Halus/Tenggorokan Bawah)',
+                harakat: { fathah: 'هَ', kasrah: 'هِ', dhammah: 'هُ', sukun: 'هْ' },
+                makhrajUtama: 'Al-Halq',
+                makhrajRinci: 'Pangkal tenggorokan terdalam (Aqshal Halq).',
+                sifat: ['Hams', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Suara dada/tenggorokan bawah yang lapang dan berhembus.'
+            },
+            {
+                symbol: 'و', name: 'Waw', transliterasi: 'Wawu',
+                harakat: { fathah: 'وَ', kasrah: 'وِ', dhammah: 'وُ', sukun: 'وْ' },
+                makhrajUtama: 'Asy-Syafatain',
+                makhrajRinci: 'Membulatkan kedua bibir ke depan.',
+                sifat: ['Jahar', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat', 'Lin'],
+                lahnTips: 'Pastikan bibir membulat sempurna (Inshimam).'
+            },
+            {
+                symbol: 'ي', name: 'Ya', transliterasi: 'Ya',
+                harakat: { fathah: 'يَ', kasrah: 'يِ', dhammah: 'يُ', sukun: 'يْ' },
+                makhrajUtama: 'Al-Lisan',
+                makhrajRinci: 'Tengah lidah terangkat ke langit-langit keras.',
+                sifat: ['Jahar', 'Rakhawah', 'Istifal', 'Infitah', 'Ismat', 'Lin'],
+                lahnTips: 'Suara lembut dan mengalir santai tanpa menekan keras.'
+            },
+            {
+                symbol: 'ء', name: 'Hamzah', transliterasi: 'Hamzah',
+                harakat: { fathah: 'أَ', kasrah: 'إِ', dhammah: 'أُ', sukun: 'أْ' },
+                makhrajUtama: 'Al-Halq',
+                makhrajRinci: 'Pangkal tenggorokan terdalam (Aqshal Halq).',
+                sifat: ['Jahar', 'Syiddah', 'Istifal', 'Infitah', 'Ismat'],
+                lahnTips: 'Suara terputus dan tertahan sangat tajam dan kuat.'
+            }
+        ];
+
+        /* ==========================================================================
+           2. STATE & GLOBAL VARIABLES
+           ========================================================================== */
+        let state = {
+            santriName: "Santri Tahsin",
+            xp: 0,
+            lives: 3,
+            streak: 0,
+            audioMuted: false,
+            touchMode: false,
+            selectedHuruf: null,
+            // Game Modul 2
+            makhrajLevel: 1,
+            makhrajCurrentIndex: 0,
+            speedTimer: 60,
+            speedTimerInterval: null,
+            // Game Modul 3
+            sifatSubmode: 'tebak',
+            sifatScore: 0,
+            sifatCurrentIndex: 0,
+            sortirCurrentHurufIndex: 0,
+            // Modul 4 Quiz
+            quizIndex: 0,
+            quizScore: 0,
+            quizQuestions: []
+        };
+
+        /* ==========================================================================
+           3. WEB AUDIO SYNTHESIZER (SOUND EFFECTS)
+           ========================================================================== */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (state.audioMuted) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15); // E5
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.exponentialRampToValueAtTime(130.81, now + 0.25); // C3
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'click') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, now);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'victory') {
+                const freqs = [523.25, 659.25, 783.99, 1046.50];
+                freqs.forEach((f, i) => {
+                    const subOsc = audioCtx.createOscillator();
+                    const subGain = audioCtx.createGain();
+                    subOsc.connect(subGain);
+                    subGain.connect(audioCtx.destination);
+                    subOsc.type = 'sine';
+                    subOsc.frequency.setValueAtTime(f, now + i * 0.1);
+                    subGain.gain.setValueAtTime(0.25, now + i * 0.1);
+                    subGain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.3);
+                    subOsc.start(now + i * 0.1);
+                    subOsc.stop(now + i * 0.1 + 0.3);
+                });
+            }
+        }
+
+        function toggleAudioSynth() {
+            state.audioMuted = !state.audioMuted;
+            const icon = document.getElementById('audio-icon');
+            if (state.audioMuted) {
+                icon.className = 'fa-solid fa-volume-xmark text-rose-400';
+            } else {
+                icon.className = 'fa-solid fa-volume-high text-gold-300';
+                playSound('click');
+            }
+        }
+
+        /* WEB SPEECH API PRONUNCIATION */
+        function speakArabicText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ar-SA';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        /* ==========================================================================
+           4. SYSTEM & UI CONTROLS (FULLSCREEN, TOUCH MODE, XP SYSTEM)
+           ========================================================================== */
+        function toggleFullscreen() {
+            playSound('click');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        function toggleTouchMode() {
+            playSound('click');
+            state.touchMode = !state.touchMode;
+            document.body.classList.toggle('touch-mode', state.touchMode);
+            const btn = document.getElementById('btn-touch-mode');
+            if (state.touchMode) {
+                btn.classList.add('bg-gold-600', 'text-emerald-950');
+                btn.classList.remove('bg-emerald-800/70', 'text-gold-300');
+            } else {
+                btn.classList.remove('bg-gold-600', 'text-emerald-950');
+                btn.classList.add('bg-emerald-800/70', 'text-gold-300');
+            }
+        }
+
+        function updateSantriName(val) {
+            state.santriName = val || "Santri Tahsin";
+            document.getElementById('display-santri-name').innerText = state.santriName;
+            document.getElementById('cert-student-name').innerText = state.santriName;
+        }
+
+        function addXP(amount) {
+            state.xp += amount;
+            document.getElementById('player-xp').innerText = `${state.xp} XP`;
+        }
+
+        function updateStreak(increment) {
+            if (increment) {
+                state.streak += 1;
+            } else {
+                state.streak = 0;
+            }
+            document.getElementById('streak-count').innerText = `${state.streak} Combo`;
+        }
+
+        function showModule(modId) {
+            playSound('click');
+            const modules = ['dashboard', 'modul1', 'modul2', 'modul3', 'modul4'];
+            modules.forEach(m => {
+                const el = document.getElementById(`module-${m}`);
+                if (el) el.classList.add('hidden');
+            });
+            const activeEl = document.getElementById(`module-${modId}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+
+            if (modId === 'modul1') renderHurufGrid(hijaiyahData);
+            if (modId === 'modul2') startMakhrajGame(1);
+            if (modId === 'modul3') startSifatGame();
+            if (modId === 'modul4') startQuiz();
+        }
+
+        /* ==========================================================================
+           5. MODUL 1 LOGIC (LABORATORIUM MAKHRAJ & SIFAT)
+           ========================================================================== */
+        function renderHurufGrid(data) {
+            const container = document.getElementById('grid-huruf-container');
+            container.innerHTML = '';
+
+            data.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = "btn-touch bg-cream-50 hover:bg-emerald-800 hover:text-white p-3 rounded-2xl border border-cream-200 hover:border-emerald-700 shadow-sm transition-all text-center flex flex-col items-center justify-center group";
+                btn.onclick = () => openModalDetail(item);
+
+                btn.innerHTML = `
+                    <span class="font-arabic text-3xl font-bold text-emerald-950 group-hover:text-gold-400 transition-colors">${item.symbol}</span>
+                    <span class="text-[11px] font-bold text-slate-600 group-hover:text-emerald-100 mt-1">${item.name}</span>
+                    <span class="text-[9px] px-2 py-0.5 mt-1 rounded-full bg-emerald-100 text-emerald-900 group-hover:bg-gold-500 group-hover:text-emerald-950 font-semibold">${item.makhrajUtama}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function filterByMakhraj(makhrajName) {
+            playSound('click');
+            // Update Anatomi SVG Highlights
+            document.querySelectorAll('.anatomi-region').forEach(el => el.classList.remove('active'));
+            if (makhrajName === 'Al-Jauf') document.getElementById('svg-jauf').classList.add('active');
+            if (makhrajName === 'Al-Halq') document.getElementById('svg-halq').classList.add('active');
+            if (makhrajName === 'Al-Lisan') document.getElementById('svg-lisan').classList.add('active');
+            if (makhrajName === 'Asy-Syafatain') document.getElementById('svg-syafatain').classList.add('active');
+            if (makhrajName === 'Al-Khaisyum') document.getElementById('svg-khaisyum').classList.add('active');
+
+            if (makhrajName === 'Semua') {
+                renderHurufGrid(hijaiyahData);
+            } else {
+                const filtered = hijaiyahData.filter(h => h.makhrajUtama === makhrajName);
+                renderHurufGrid(filtered);
+            }
+        }
+
+        function searchHuruf(query) {
+            const q = query.toLowerCase();
+            const filtered = hijaiyahData.filter(h => 
+                h.name.toLowerCase().includes(q) || 
+                h.transliterasi.toLowerCase().includes(q) ||
+                h.makhrajUtama.toLowerCase().includes(q) ||
+                h.sifat.some(s => s.toLowerCase().includes(q))
+            );
+            renderHurufGrid(filtered);
+        }
+
+        function openModalDetail(hurufObj) {
+            playSound('click');
+            state.selectedHuruf = hurufObj;
+            document.getElementById('modal-symbol-box').innerText = hurufObj.symbol;
+            document.getElementById('modal-nama-huruf').innerText = hurufObj.name;
+            document.getElementById('modal-transliterasi').innerText = `Latin: ${hurufObj.transliterasi} | Makhraj Utama: ${hurufObj.makhrajUtama}`;
+            
+            // Render Harakat
+            const harakatBox = document.getElementById('modal-harakat-display');
+            harakatBox.innerHTML = `
+                <div class="bg-white p-2 rounded-xl border border-slate-200"><span>${hurufObj.harakat.fathah}</span><p class="text-[10px] text-slate-500 font-sans mt-1">Fathah</p></div>
+                <div class="bg-white p-2 rounded-xl border border-slate-200"><span>${hurufObj.harakat.kasrah}</span><p class="text-[10px] text-slate-500 font-sans mt-1">Kasrah</p></div>
+                <div class="bg-white p-2 rounded-xl border border-slate-200"><span>${hurufObj.harakat.dhammah}</span><p class="text-[10px] text-slate-500 font-sans mt-1">Dhammah</p></div>
+                <div class="bg-white p-2 rounded-xl border border-slate-200"><span>${hurufObj.harakat.sukun}</span><p class="text-[10px] text-slate-500 font-sans mt-1">Sukun</p></div>
+            `;
+
+            document.getElementById('modal-makhraj-utama').innerText = hurufObj.makhrajUtama;
+            document.getElementById('modal-makhraj-rinci').innerText = hurufObj.makhrajRinci;
+
+            // Render Sifat Badges
+            const sifatContainer = document.getElementById('modal-sifat-badges');
+            sifatContainer.innerHTML = '';
+            hurufObj.sifat.forEach(s => {
+                const isSpecial = ['Qalqalah', 'Shafir', 'Istithalah', 'Tafasysyi', 'Takrir', 'Inhiraf', 'Lin', 'Ghunnah'].includes(s);
+                const badge = document.createElement('span');
+                badge.className = `text-xs px-3 py-1 rounded-xl font-bold border ${isSpecial ? 'bg-amber-100 text-amber-900 border-amber-400 glow-gold' : 'bg-emerald-100 text-emerald-900 border-emerald-300'}`;
+                badge.innerText = s;
+                sifatContainer.appendChild(badge);
+            });
+
+            document.getElementById('modal-lahn-tips').innerText = hurufObj.lahnTips;
+            document.getElementById('modal-detail-huruf').classList.remove('hidden');
+        }
+
+        function closeModalDetail() {
+            playSound('click');
+            document.getElementById('modal-detail-huruf').classList.add('hidden');
+        }
+
+        function playAudioUtterance() {
+            if (state.selectedHuruf) {
+                speakArabicText(`${state.selectedHuruf.harakat.fathah}, ${state.selectedHuruf.harakat.kasrah}, ${state.selectedHuruf.harakat.dhammah}, ${state.selectedHuruf.harakat.sukun}`);
+            }
+        }
+
+        /* ==========================================================================
+           6. MODUL 2 LOGIC (GAME TEBAK MAKHRAJ)
+           ========================================================================== */
+        const makhrajUtamaList = ['Al-Jauf', 'Al-Halq', 'Al-Lisan', 'Asy-Syafatain', 'Al-Khaisyum'];
+
+        function startMakhrajGame(level) {
+            playSound('click');
+            state.makhrajLevel = level;
+            clearInterval(state.speedTimerInterval);
+            document.getElementById('speed-timer-bar').classList.add('hidden');
+
+            // Toggle active level button UI
+            [1, 2, 3].forEach(l => {
+                const btn = document.getElementById(`lvl-btn-${l}`);
+                if (l === level) {
+                    btn.className = "btn-touch px-4 py-2 rounded-xl bg-emerald-900 text-gold-400 font-bold text-xs shadow-md";
+                } else {
+                    btn.className = "btn-touch px-4 py-2 rounded-xl bg-cream-200 text-slate-800 hover:bg-emerald-100 font-bold text-xs";
+                }
+            });
+
+            if (level === 1) {
+                document.getElementById('makhraj-level-badge').innerText = "Level 1: 5 Makhraj Utama";
+            } else if (level === 2) {
+                document.getElementById('makhraj-level-badge').innerText = "Level 2: Makhraj Rinci";
+            } else if (level === 3) {
+                document.getElementById('makhraj-level-badge').innerText = "Level 3: Speed Round (60 Detik)";
+                document.getElementById('speed-timer-bar').classList.remove('hidden');
+                state.speedTimer = 60;
+                document.getElementById('timer-seconds').innerText = state.speedTimer;
+                state.speedTimerInterval = setInterval(() => {
+                    state.speedTimer--;
+                    document.getElementById('timer-seconds').innerText = state.speedTimer;
+                    if (state.speedTimer <= 0) {
+                        clearInterval(state.speedTimerInterval);
+                        playSound('victory');
+                        alert(`Waktu Habis! Anda mengumpulkan ${state.xp} XP!`);
+                    }
+                }, 1000);
+            }
+
+            nextMakhrajQuestion();
+        }
+
+        function nextMakhrajQuestion() {
+            // Pick random huruf
+            state.makhrajCurrentIndex = Math.floor(Math.random() * hijaiyahData.length);
+            const currentObj = hijaiyahData[state.makhrajCurrentIndex];
+
+            document.getElementById('makhraj-question-symbol').innerText = currentObj.symbol;
+            document.getElementById('makhraj-question-name').innerText = currentObj.name;
+            document.getElementById('makhraj-question-hint').innerText = `Hint: Memiliki sifat ${currentObj.sifat[0]} & ${currentObj.sifat[1] || ''}`;
+            document.getElementById('makhraj-feedback-box').innerText = "Pilih salah satu jawaban di sebelah kiri untuk menguji makhraj.";
+
+            // Reset visual SVG highlights
+            ['fb-jauf', 'fb-halq', 'fb-lisan', 'fb-syafatain', 'fb-khaisyum'].forEach(id => {
+                document.getElementById(id).style.opacity = '0.2';
+            });
+
+            // Generate options
+            const container = document.getElementById('makhraj-options-container');
+            container.innerHTML = '';
+
+            let choices = [];
+            if (state.makhrajLevel === 1 || state.makhrajLevel === 3) {
+                choices = [...makhrajUtamaList];
+            } else {
+                // Level 2 detailed makhraj options
+                choices = [
+                    currentObj.makhrajRinci,
+                    "Pangkal tenggorokan terdalam (Aqshal Halq)",
+                    "Ujung lidah menyentuh gigi seri bawah",
+                    "Dua bibir membulat ke depan"
+                ].sort(() => 0.5 - Math.random());
+            }
+
+            choices.forEach(ans => {
+                const btn = document.createElement('button');
+                btn.className = "btn-touch p-3 rounded-2xl bg-cream-100 hover:bg-emerald-800 hover:text-white text-emerald-950 font-bold text-xs border border-cream-300 transition text-left shadow-sm";
+                btn.innerText = ans;
+                btn.onclick = () => checkMakhrajAnswer(ans, currentObj);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkMakhrajAnswer(selectedAnswer, currentObj) {
+            let isCorrect = false;
+            if (state.makhrajLevel === 1 || state.makhrajLevel === 3) {
+                isCorrect = (selectedAnswer === currentObj.makhrajUtama);
+            } else {
+                isCorrect = (selectedAnswer === currentObj.makhrajRinci);
+            }
+
+            const feedbackBox = document.getElementById('makhraj-feedback-box');
+
+            // Highlight SVG Anatomi
+            const svgIdMap = {
+                'Al-Jauf': 'fb-jauf',
+                'Al-Halq': 'fb-halq',
+                'Al-Lisan': 'fb-lisan',
+                'Asy-Syafatain': 'fb-syafatain',
+                'Al-Khaisyum': 'fb-khaisyum'
+            };
+            const targetSvgId = svgIdMap[currentObj.makhrajUtama];
+            if (targetSvgId) {
+                document.getElementById(targetSvgId).style.opacity = '0.9';
+            }
+
+            if (isCorrect) {
+                playSound('correct');
+                addXP(20);
+                updateStreak(true);
+                feedbackBox.className = "text-xs p-3 rounded-2xl bg-emerald-100 text-emerald-950 border border-emerald-300 w-full font-bold text-center";
+                feedbackBox.innerText = `Benar! Huruf ${currentObj.name} keluar dari ${currentObj.makhrajUtama}. (${currentObj.makhrajRinci})`;
+                setTimeout(nextMakhrajQuestion, 1600);
+            } else {
+                playSound('wrong');
+                updateStreak(false);
+                feedbackBox.className = "text-xs p-3 rounded-2xl bg-rose-100 text-rose-950 border border-rose-300 w-full font-bold text-center";
+                feedbackBox.innerText = `Kurang tepat. Makhraj ${currentObj.name} sebenarnya adalah: ${currentObj.makhrajUtama}.`;
+            }
+        }
+
+        function speakCurrentQuestionLetter() {
+            const currentObj = hijaiyahData[state.makhrajCurrentIndex];
+            speakArabicText(currentObj.symbol);
+        }
+
+        /* ==========================================================================
+           7. MODUL 3 LOGIC (DETEKTIF SIFATUL HURUF)
+           ========================================================================== */
+        const specialSifatList = [
+            { name: 'Qalqalah', arabic: 'قلقلة', desc: 'Memantulkan suara ketika huruf sukun.' },
+            { name: 'Shafir', arabic: 'صفير', desc: 'Suara desis mirip siul lebah/burung.' },
+            { name: 'Istithalah', arabic: 'استطالة', desc: 'Memanjangkan suara di sepanjang tepi lidah.' },
+            { name: 'Tafasysyi', arabic: 'تفشي', desc: 'Penyebaran angin di dalam mulut.' },
+            { name: 'Takrir', arabic: 'تكرير', desc: 'Getaran halus pada ujung lidah.' },
+            { name: 'Inhiraf', arabic: 'انحراف', desc: 'Suara melenceng ke tepi lidah.' },
+            { name: 'Lin', arabic: 'لين', desc: 'Pengucapan lembut tanpa paksakan.' }
+        ];
+
+        function startSifatGame() {
+            playSound('click');
+            if (state.sifatSubmode === 'tebak') {
+                loadSifatTebakQuestion();
+            } else {
+                loadSifatSortirQuestion();
+            }
+        }
+
+        function switchSifatSubmode(mode) {
+            playSound('click');
+            state.sifatSubmode = mode;
+            const btnTebak = document.getElementById('submode-btn-tebak');
+            const btnSortir = document.getElementById('submode-btn-sortir');
+
+            if (mode === 'tebak') {
+                btnTebak.className = "btn-touch p-4 rounded-2xl bg-emerald-900 text-white font-bold text-sm shadow-md flex items-center justify-center gap-3";
+                btnSortir.className = "btn-touch p-4 rounded-2xl bg-white text-emerald-950 hover:bg-emerald-50 font-bold text-sm border border-emerald-200 shadow-sm flex items-center justify-center gap-3";
+                document.getElementById('sifat-submode-tebak').classList.remove('hidden');
+                document.getElementById('sifat-submode-sortir').classList.add('hidden');
+                loadSifatTebakQuestion();
+            } else {
+                btnSortir.className = "btn-touch p-4 rounded-2xl bg-emerald-900 text-white font-bold text-sm shadow-md flex items-center justify-center gap-3";
+                btnTebak.className = "btn-touch p-4 rounded-2xl bg-white text-emerald-950 hover:bg-emerald-50 font-bold text-sm border border-emerald-200 shadow-sm flex items-center justify-center gap-3";
+                document.getElementById('sifat-submode-sortir').classList.remove('hidden');
+                document.getElementById('sifat-submode-tebak').classList.add('hidden');
+                loadSifatSortirQuestion();
+            }
+        }
+
+        function loadSifatTebakQuestion() {
+            const sifatTarget = specialSifatList[Math.floor(Math.random() * specialSifatList.length)];
+            document.getElementById('sifat-target-name').innerText = `${sifatTarget.name} (${sifatTarget.arabic})`;
+            document.getElementById('sifat-target-desc').innerText = sifatTarget.desc;
+
+            // Find valid correct huruf
+            const correctHurufList = hijaiyahData.filter(h => h.sifat.includes(sifatTarget.name));
+            const correctObj = correctHurufList[Math.floor(Math.random() * correctHurufList.length)];
+
+            // Find 3 incorrect huruf
+            const wrongHurufList = hijaiyahData.filter(h => !h.sifat.includes(sifatTarget.name)).sort(() => 0.5 - Math.random()).slice(0, 3);
+
+            const options = [correctObj, ...wrongHurufList].sort(() => 0.5 - Math.random());
+            const container = document.getElementById('sifat-letters-grid');
+            container.innerHTML = '';
+
+            options.forEach(huruf => {
+                const btn = document.createElement('button');
+                btn.className = "btn-touch p-6 rounded-3xl bg-cream-100 hover:bg-emerald-800 hover:text-gold-400 text-emerald-950 font-arabic text-5xl font-bold border-2 border-cream-300 shadow-md transition flex flex-col items-center justify-center gap-2";
+                btn.innerHTML = `
+                    <span>${huruf.symbol}</span>
+                    <span class="font-sans text-xs font-bold">${huruf.name}</span>
+                `;
+                btn.onclick = () => checkSifatTebak(huruf, correctObj, sifatTarget.name);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkSifatTebak(selectedHuruf, correctObj, sifatName) {
+            if (selectedHuruf.sifat.includes(sifatName)) {
+                playSound('correct');
+                addXP(25);
+                state.sifatScore += 25;
+                document.getElementById('sifat-score-display').innerText = `${state.sifatScore} Poin`;
+                alert(`Benar! Huruf ${selectedHuruf.name} (${selectedHuruf.symbol}) memiliki sifat ${sifatName}.`);
+                loadSifatTebakQuestion();
+            } else {
+                playSound('wrong');
+                alert(`Salah. Huruf ${selectedHuruf.name} tidak memiliki sifat ${sifatName}.`);
+            }
+        }
+
+        function loadSifatSortirQuestion() {
+            state.sortirCurrentHurufIndex = Math.floor(Math.random() * hijaiyahData.length);
+            const currentHuruf = hijaiyahData[state.sortirCurrentHurufIndex];
+            document.getElementById('sortir-current-card').innerText = currentHuruf.symbol;
+        }
+
+        function checkSortirChoice(bucketNum) {
+            const currentHuruf = hijaiyahData[state.sortirCurrentHurufIndex];
+            const hasHams = currentHuruf.sifat.includes('Hams');
+            
+            let isCorrect = false;
+            if (bucketNum === 1 && hasHams) isCorrect = true;
+            if (bucketNum === 2 && !hasHams) isCorrect = true;
+
+            if (isCorrect) {
+                playSound('correct');
+                addXP(15);
+                loadSifatSortirQuestion();
+            } else {
+                playSound('wrong');
+                alert(`Salah! Huruf ${currentHuruf.name} adalah ${hasHams ? 'HAMS (Ada nafas)' : 'JAHAR (Nafas tertahan)'}.`);
+                loadSifatSortirQuestion();
+            }
+        }
+
+        /* ==========================================================================
+           8. MODUL 4 LOGIC (UJIAN EVALUASI & SERTIFIKAT SANTRI)
+           ========================================================================== */
+        const quizBank = [
+            {
+                q: "Di manakah makhraj utama pengucapan huruf Qaf (ق)?",
+                cat: "Makhorijul Huruf",
+                opts: ["Al-Lisan (Pangkal Lidah)", "Al-Halq (Tenggorokan)", "Asy-Syafatain (Bibir)", "Al-Jauf"],
+                ans: 0
+            },
+            {
+                q: "Huruf yang keluar dari tempat pertemuan dua bibir (Asy-Syafatain) yang dirapatkan adalah...",
+                cat: "Makhorijul Huruf",
+                opts: ["Huruf Ba (ب)", "Huruf Ha (ح)", "Huruf Ra (ر)", "Huruf Jim (ج)"],
+                ans: 0
+            },
+            {
+                q: "Sifat memantulkan suara ketika huruf berada dalam kondisi sukun dinamakan...",
+                cat: "Sifatul Huruf",
+                opts: ["Qalqalah", "Hams", "Istithalah", "Takrir"],
+                ans: 0
+            },
+            {
+                q: "Berapakah jumlah Makhraj Utama (Makhorijul Huruf 'Ammah) secara umum?",
+                cat: "Teori Tajwid",
+                opts: ["5 Tempat Utama", "7 Tempat Utama", "3 Tempat Utama", "17 Tempat Utama"],
+                ans: 0
+            },
+            {
+                q: "Manakah di antara huruf berikut yang memiliki sifat khusus Istithalah (استطالة)?",
+                cat: "Sifatul Huruf",
+                opts: ["Dhad (ض)", "Shad (ص)", "Tha (ط)", "Zha (ظ)"],
+                ans: 0
+            },
+            {
+                q: "Huruf 'Ain (ع) dan Ha (ح) keluar dari makhraj tenggorokan bagian...",
+                cat: "Makhorijul Huruf",
+                opts: ["Wasathul Halq (Tengah Tenggorokan)", "Aqshal Halq (Pangkal Bawah)", "Adnal Halq (Ujung Atas)", "Al-Khaisyum"],
+                ans: 0
+            },
+            {
+                q: "Lahn Khafi (kesalahan tersembunyi) saat membaca huruf Ra (ر) sukun adalah...",
+                cat: "Analisis Lahn",
+                opts: ["Menggetarkan lidah secara berlebihan (Takrir berlebih)", "Membaca dengan dengung", "Memantulkan suara", "Mengubah huruf menjadi Lam"],
+                ans: 0
+            },
+            {
+                q: "Huruf-huruf yang memiliki sifat Hams (hembusan nafas) terkumpul dalam rangkuman lafaz...",
+                cat: "Sifatul Huruf",
+                opts: ["فَحَثَّهُ شَخْصٌ سَكَتَ", "قُطْبُ جَدٍّ", "خُصَّ ضَغْطٍ قِظْ", "عُمَرُ لِنْ"],
+                ans: 0
+            },
+            {
+                q: "Sifatul Huruf yang tidak memiliki lawan kata (Sifat Tunggal) adalah...",
+                cat: "Sifatul Huruf",
+                opts: ["Shafir dan Qalqalah", "Hams dan Jahar", "Isti'la dan Istifal", "Itbaq dan Infitah"],
+                ans: 0
+            },
+            {
+                q: "Rongga hidung (Al-Khaisyum) merupakan makhraj khusus untuk memancarkan suara...",
+                cat: "Makhorijul Huruf",
+                opts: ["Ghunnah (Dengung)", "Qalqalah (Pantulan)", "Hams (Bisikan)", "Shafir (Desis)"],
+                ans: 0
+            }
+        ];
+
+        function startQuiz() {
+            playSound('click');
+            state.quizIndex = 0;
+            state.quizScore = 0;
+            state.quizQuestions = [...quizBank].sort(() => 0.5 - Math.random());
+            
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('certificate-result-container').classList.add('hidden');
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const currentQ = state.quizQuestions[state.quizIndex];
+            document.getElementById('quiz-num').innerText = state.quizIndex + 1;
+            document.getElementById('quiz-category-badge').innerText = currentQ.cat;
+            document.getElementById('quiz-question-text').innerText = currentQ.q;
+            document.getElementById('quiz-score-live').innerText = `Skor: ${state.quizScore}`;
+            
+            const pct = ((state.quizIndex) / 10) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+            const container = document.getElementById('quiz-options-grid');
+            container.innerHTML = '';
+
+            currentQ.opts.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "btn-touch p-4 rounded-2xl bg-cream-100 hover:bg-emerald-900 hover:text-gold-300 text-emerald-950 font-semibold text-sm border border-cream-300 transition text-left shadow-sm";
+                btn.innerText = `${String.fromCharCode(65 + idx)}. ${optText}`;
+                btn.onclick = () => answerQuiz(idx);
+                container.appendChild(btn);
+            });
+        }
+
+        function answerQuiz(selectedIdx) {
+            const currentQ = state.quizQuestions[state.quizIndex];
+            if (selectedIdx === currentQ.ans) {
+                playSound('correct');
+                state.quizScore += 10;
+            } else {
+                playSound('wrong');
+            }
+
+            state.quizIndex++;
+            if (state.quizIndex < 10) {
+                renderQuizQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            playSound('victory');
+            addXP(state.quizScore * 2);
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('certificate-result-container').classList.remove('hidden');
+
+            const score = state.quizScore;
+            let predicate = "Jayyid (جيد)";
+            if (score >= 90) predicate = "Mumtaz (ممتاز)";
+            else if (score >= 75) predicate = "Jayyid Jiddan (جيد جداً)";
+
+            document.getElementById('cert-final-score').innerText = `${score} / 100`;
+            document.getElementById('cert-final-predicate').innerText = predicate;
+
+            // Certificate Details
+            document.getElementById('cert-student-name').innerText = state.santriName;
+            document.getElementById('cert-score-badge').innerText = `${score} / 100`;
+            document.getElementById('cert-predicate-badge').innerText = predicate;
+
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('cert-date-display').innerText = `Tanggal: ${dateStr}`;
+        }
+
+        function restartQuiz() {
+            startQuiz();
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        /* INITIALIZATION ON WINDOW LOAD */
+        window.onload = function() {
+            renderHurufGrid(hijaiyahData);
+        };
+    </script>
+</body>
+</html>
